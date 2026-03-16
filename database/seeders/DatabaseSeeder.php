@@ -17,12 +17,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'id'=>99,
-            'name'=>'Admin',
-            'email'=>'jawa@jawa.com',
-            'password'=>Hash::make('123123123'),
-            'is_admin'=>true,
-        ]);
+        \App\Models\User::firstOrCreate(
+            ['email' => 'jawa@jawa.com'],
+            [
+                'name' => 'Admin',
+                'password' => \Hash::make('12345678'),
+                'is_admin' => true,
+            ]
+        );
     }
 }
