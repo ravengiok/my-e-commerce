@@ -1,4 +1,4 @@
-[phases.setup];
+[phases.setup]
 nixPkgs = [
     "php82",
     "php82Extensions.pdo_mysql",
@@ -10,11 +10,18 @@ nixPkgs = [
     "php82Extensions.gd",
     "php82Extensions.bcmath",
     "composer",
-    "nodejs_20",
-][phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader", "npm install"][
-    phases.build
+    "nodejs_20"
 ]
-cmds = ["npm run production"][start]
-cmd =
-    "php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && php -S 0.0.0.0:${PORT:-8080} -t public"
+
+[phases.install]
+cmds = [
+    "composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader",
+    "npm install"
+]
+
+[phases.build]
+cmds = [
+    "npm run production"
+]
+[start]
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
